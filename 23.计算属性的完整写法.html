@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 计算属性默认的简写，只能读取访问，不能 "修改"。
+        如果要 "修改"---需要写计算属性的完整写法 -->
+        姓：<input v-model="user" type="text">+
+        名：<input v-model="username" type="text">=
+        <span>{{sum}}</span><br><br>
+        <button @click="changeName">改名卡</button>
+    </div>
+    <script src="http:localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                user: '刘',
+                username: '备'
+            },
+            methods: {
+                changeName() {
+                    this.sum = '黄忠'
+                }
+            },
+            computed: {
+                // 简写---获取，没有配置设置的逻辑
+                // fullName () {
+                //   return this.firstName + this.lastName
+                // }
+
+                // 完整写法---获取 + 设置
+                sum: {
+                    //当fullName计算属性，被获取求值时，
+                    //执行get（有缓存，优先读缓存）
+                    //会将返回值作为---求值的结果
+                    get() {
+                        return this.user + this.username
+                    },
+                    //当fullName计算属性，被修改赋值时，执行set
+                    //修改的值，传递给set方法的形参
+                    set(newName) {
+                        // console.log(newName)
+                        // console.log(newName.slice(0, 1))
+                        // console.log(newName.slice(1))
+                        this.user = newName.slice(0, 1)
+                        this.username = newName.slice(1)
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <!-- v-bind---动态的设置html的标签属性 -->
+        <!-- v-bind:属性名="表达式" -->
+        <img v-bind:src="imgUrl" alt="">
+        <!-- 简写 -->
+        <img :src="imgUrl" alt="">
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                msg: 'hello 波仔',
+                imgUrl: './imgs/10-02.png'
+            }
+        })
+    </script>
+</body>
+
+</html>

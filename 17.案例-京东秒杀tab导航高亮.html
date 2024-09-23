@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .app {
+            width: 300px;
+            height: 40px;
+            border-bottom: 1px solid red;
+        }
+
+        a {
+            width: 80px;
+            text-decoration: none;
+            color: #000;
+            display: inline-block;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .active {
+            background-color: red;
+            color: #fff;
+        }
+
+        ul {
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+        }
+
+        ul li {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <ul>
+            <!-- v-for遍历渲染列表
+            :key给列表项添加唯一标识 -->
+            <!-- @click---v-on事件监听,将当前点击的列表下标赋值给getActice(标记高亮的data数据) -->
+            <li @click="getActive = index" v-for="(item,index) in list" :key="item.id">
+                <!-- :class---v-bind动态修改class对象属性
+                :class="{ 类名1: 布尔值, 类名2: 布尔值 }"
+                布尔值为真则执行
+                因此当index===getActive为真
+                active类里的CSS样式生效 -->
+                <a :class="{ active: index === getActive}" href="#">{{item.name}}</a>
+            </li>
+        </ul>
+    </div>
+    <script src="http:\\localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                getActive: 0,//记录高亮
+                list: [
+                    { id: 1, name: '京东秒杀' },
+                    { id: 2, name: '每日特价' },
+                    { id: 3, name: '品类秒杀' }
+                ]
+            },
+            methods: {
+                addColor() {
+                    alert(`点击了~`)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

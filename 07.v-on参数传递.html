@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <div class="box">
+            <h3>自动售货机</h3>
+            <button @click="buy(5)">可乐5元</button>
+            <button @click="buy(10)">咖啡10元</button>
+            <button @click="buy(8)">牛奶8元</button>
+        </div>
+        <p>银行卡余额：{{ money }}元</p>
+    </div>
+    <script src="http://localhost:8098"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el:'.app',
+            data:{//提供数据
+                money:100
+            },
+            methods:{//提供处理逻辑函数
+                buy(price){//Vue指令v-on调用传参
+                    //所有methods中的函数，this都指向当前实例
+                    this.money -= price
+                }
+            }
+        })
+    </script>
+</body>
+</html>

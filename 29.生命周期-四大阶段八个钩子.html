@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <h3>{{title}}</h3>
+        <div>
+            <button @click="count--">-</button>
+            <span>{{count}}</span>
+            <button @click="count++">+</button>
+        </div>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                count: 100,
+                title: '计数器'
+            },
+            //四个生命周期1.创建2.挂载(渲染模板)3.更新4.销毁
+            //八个钩子
+            beforeCreate() {//创建阶段---准备数据
+                console.log('beforeCreate 响应数据准备好之前', this.count)
+            },
+            created() {
+                console.log('created 响应数据准备好之后', this.count)
+            },
+            beforeMount() {//挂载阶段(渲染模板)
+                console.log('beforeMount 渲染模板之前', document.querySelector('h3').innerHTML)
+            },
+            mounted() {
+                console.log('mounted 渲染模板之后', document.querySelector('h3').innerHTML)
+            },
+            beforeUpdate() {//更新阶段(修改数据)
+                console.log('beforeUpdate 数据修改了，视图还没更新', document.querySelector('span').innerHTML)
+            },
+            updated() {
+                console.log('updated 数据修改了，视图已经更新', document.querySelector('span').innerHTML)
+            },
+            beforeDestroy() {//销毁阶段/卸载阶段
+                console.log('beforeDestroy 卸载前')
+                console.log('可以清楚一些Vue以外的资源占用，定时器，延时器...')
+            },
+            destroyed() {
+                console.log('destroyed 卸载后')
+            }
+        })
+    </script>
+</body>
+
+</html>

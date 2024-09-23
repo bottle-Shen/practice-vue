@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: bisque;
+        }
+
+        .app {
+            width: 300px;
+            height: 500px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        h1 {
+            text-align: center;
+            color: pink;
+            margin-bottom: 10px;
+        }
+
+        form {
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        input,
+        button {
+            width: 200px;
+            height: 30px;
+            border: 2px solid pink;
+            border-radius: 5px 0px 0px 5px;
+            border-right: 0px;
+        }
+
+        button {
+            float: right;
+            width: 80px;
+            background-color: pink;
+            border-radius: 0px 5px 5px 0px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        ol {
+            list-style: none;
+            width: 280px;
+            background-color: #fff;
+        }
+
+        li {
+            padding: 8px;
+            border-bottom: 1px solid gainsboro;
+        }
+
+        li i {
+            float: right;
+            color: pink;
+            cursor: pointer;
+        }
+
+        .bottom {
+            /* width: 100px; */
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            padding: 10px;
+        }
+
+        .delAll {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>Bottle记事本</h1>
+        <form action="" method="get">
+            <!-- 当表单中只有一个文本框时，文本框按enter会有默认提交行为
+            导致自动刷新页面
+            解决方法：添加@keydown.enter.prevent取消默认行为 -->
+            <input @keydown.enter.prevent="add" type="text" v-model="addTest" placeholder="请输入任务">
+            <!-- 将button按钮样式改为type="button",
+            原生button按钮默认type="submit",这个属性具有默认提交功能，
+            在 非IE浏览器 下会存在点击后刷新页面的问题 -->
+            <button @click="add" type="button">添加任务</button>
+            <ol>
+                <li v-for="(item,index) in list" :key="item.id">{{index+1}}. {{item.name}}
+                    <i @click="del(item.id)">×</i>
+                </li>
+            </ol>
+            <div class="bottom">
+                <span>合计：{{list.length}}</span>
+                <span @click="delAll" class="delAll">清空任务</span>
+            </div>
+        </form>
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                addTest: '',
+                list: [
+                    { id: 1, name: '跑步一公里' },
+                    { id: 2, name: '游泳100米' },
+                ]
+            },
+            methods: {
+                del(id) {
+                    this.list = this.list.filter(item => item.id !== id)
+                },
+                add() {
+                    if (this.addTest.trim() === '') {//输入内容为空提示.trim去除首尾空格
+                        aler('请输入任务！')
+                        return
+                    }
+                    this.list.unshift({//往数组最前面加 unshift
+                        id: +new Date(),//时间戳保障id唯一
+                        name: this.addTest
+                    })
+                    this.addTest = ''//添加完数据，清空输入框
+                },
+                delAll() {
+                    this.list = []
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

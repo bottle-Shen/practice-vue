@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <button @click="fn">切换显示隐藏</button>
+        <h1 v-show="isShow">Bolttle</h1>
+    </div>
+    <script src="http://localhost:8098"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el:'.app',
+            data:{//提供数据
+                isShow:true
+            },
+            methods:{//提供处理逻辑函数
+                fn(){//Vue指令v-on调用传参
+                    //所有methods中的函数，this都指向当前实例
+                    console.log(app === this)//true 当前实例是app
+                    this.isShow = !this.isShow
+                }
+            }
+        })
+    </script>
+</body>
+</html>

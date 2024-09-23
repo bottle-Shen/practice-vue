@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            margin-top: 20px;
+        }
+
+        .white {
+            color: #fff;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 对象---键就是类名，值是布尔值。
+         如果值为 true，有这个类，否则没有这个类 -->
+        <!-- 适用场景：一个类名，来回切换。导航高亮切换 -->
+        <!-- :class="{ 类名1: 布尔值, 类名2: 布尔值 }" -->
+        <div class="box" :class="{white:true,blue:true}">Bottle</div>
+        <!-- 数组---数组中所有的类，都会添加到盒子上，本质就是一个 class 列表 -->
+        <!-- 适用场景：批量添加或删除类 -->
+        <!-- :class="[ '类名1', '类名2', '类名3' ]" -->
+        <div class="box" :class="['white','blue']">Bottle</div>
+    </div>
+    <script src="http:\\localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

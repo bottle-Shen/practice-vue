@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .app{
+            width: 150px;
+            height: 200px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    v-model实现双向数据绑定
+    a.实现了数据变化视图自动更新
+    b.当视图变化数据也自动更新
+    可以用于快速[获取]或[设置]表单元素内容
+    -->
+    <div class="app">
+        账号：<input type="text" v-model="username">
+        密码：<input type="password" v-model="password">
+        <button @click="login">登录</button>
+        <button @click="reset">重置</button>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el:'.app',
+            data:{
+                username:'',
+                password:''
+            },
+            methods:{
+                login(){
+                    console.log(this.username,this.password)
+                },
+                reset(){
+                    this.username = ''
+                    this.password = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>

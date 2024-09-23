@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .app {
+            width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        header img {
+            width: 100%;
+            border-radius: 30px;
+            margin: 10px 0;
+        }
+
+        nav {
+            color: #a0a0a0;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+
+        td {
+            height: 100px;
+        }
+
+        tbody img {
+            height: 100px;
+        }
+
+        thead {
+            background-color: pink;
+        }
+
+        .computer {
+            width: 20px;
+        }
+
+        tbody input {
+            width: 20px;
+        }
+
+        .num {
+            display: flex;
+            justify-content: center;
+        }
+
+        .all {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            line-height: 60px;
+        }
+
+        .sum span {
+            font-size: 28px;
+            color: pink;
+        }
+
+        .sum button {
+            width: 80px;
+            background-color: pink;
+            border-radius: 5px;
+        }
+
+        tfoot td {
+            height: 60px;
+        }
+
+        .checked {
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header><img src="imgs/fruit.jpg" alt=""></header>
+        <nav>🏠/购物车</nav>
+        <section>
+            <table v-if="list.length > 0">
+                <thead>
+                    <tr>
+                        <th>选中</th>
+                        <th>图片</th>
+                        <th>单价</th>
+                        <th>个数</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in list" :key="item.id" :class="{checked:item.isChecked}">
+                        <td><input v-model="item.isChecked" type="checkbox" name="" id=""></td>
+                        <td><img :src="item.src" alt=""></td>
+                        <td>{{item.price}}</td>
+                        <td>
+                            <div class="num">
+                                <!-- 添加disanled禁用状态,当数组的数量小于等于1,不允许点击 -->
+                                <button :disabled="item.num<=1" @click="del(item.id)" class="computer"
+                                    type="button">-</button>
+                                <span>{{item.num}}</span>
+                                <button @click="add(item.id)" class="computer" type="button">+</button>
+                            </div>
+                        </td>
+                        <td>{{item.num * item.price}}</td>
+                        <td>
+                            <button @click="delShop(item.id)" type="button">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="all">
+                                <div class="left">
+                                    <input v-model="isAll" type="checkbox" name="" id="">全选
+                                </div>
+                                <div class="sum">
+                                    总价：￥<span v-model="priceAll">{{priceAll}}</span>
+                                    <button v-model="numAll" type="button">结算({{numAll}})</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+            <table v-else>
+                <tr>
+                    <td>暂无商品</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                list: [{
+                    id: 1, price: 6, num: 1, src: 'imgs/火龙果.png', isChecked: true
+                }, {
+                    id: 2, price: 7, num: 2, src: 'imgs/樱桃.png', isChecked: false
+                }]
+            },
+            computed: {
+                isAll: {
+                    // 必须所有的小选框都选中，全选按钮才选中---every
+                    get() {
+                        return this.list.every(prev => prev.isChecked)
+                    },
+                    set(newValue) {
+                        this.list.forEach(prev => prev.isChecked = newValue)
+                    }
+                },
+                priceAll() {
+                    return this.list.reduce((prev, cul) => {
+                        if (cul.isChecked) {
+                            return prev + cul.num * cul.price
+                        } else {
+                            return prev
+                        }
+                    }, 0)
+
+                },
+                numAll() {
+                    // prev上一次调用回调返回的值,或者是提供的初始值
+                    // cul数组中当前被处理的元素
+                    return this.list.reduce((prev, cul) => {
+                        if (cul.isChecked) {//判断当前数组处理的元素是否添加了选中状态
+                            return prev + cul.num//选中
+                        } else {
+                            return prev//没选中
+                        }
+                    }, 0)
+                }
+            },
+            methods: {
+                add(id) {
+                    const add = this.list.find(prev => prev.id === id)
+                    add.num++
+                },
+                del(id) {
+                    const del = this.list.find(prev => prev.id === id)
+                    del.num--
+                },
+                delShop(id) {
+                    this.list = this.list.filter(prev => prev.id !== id)
+                }
+            },
+            //持久化到本地
+            // 控制台查看本地存储,内容动态变化
+            watch: {
+                list: {
+                    //只读的localStorage 属性允许你访问一个Document 源（origin）的对象 Storage；
+                    // 存储的数据将保存在浏览器会话中。
+                    // localStorage 类似 sessionStorage，但其区别在于：
+                    // 存储在 localStorage 的数据可以长期保留；
+                    // 而当页面会话结束——也就是说，当页面被关闭时，
+                    // 存储在 sessionStorage 的数据会被清除。
+                    deep: true,
+                    handler(newValue) {
+                        // 需要将变化后的 newValue 存入本地 （转JSON）
+                        localStorage.setItem('list', JSON.stringify(newValue))
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 创建Vue实例，初始化渲染的步骤：
+    1.html准备盒子容器
+    2.js引入Vue包
+    3.创建Vue实例new Vue()
+    4.指定配置项el,data渲染数据 -->
+    <div class="box1">
+        box1---{{ msg }}
+    </div>
+    <div class="box2">
+        box2---{{ msg }}
+    </div>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <a href="#">{{ count }}</a>
+    </div>
+    <!-- 引入Vue开发版本包 -->
+    <script src="vue.global.js"></script>
+    <!-- 引入Vue包后，在全局环境下就有了Vue构造函数 -->
+    <script>
+        // 创建Vue实例new Vue()
+        const app = new Vue({//指定配置项，渲染数据
+            //通过el指定挂载点配置选择器,指定了id为app的盒子
+            el:'#app',
+            //通过data提供数据
+            data:{
+                msg:'HELLO Bottle!',
+                count:999
+            }
+        })
+    </script>
+</body>
+</html>

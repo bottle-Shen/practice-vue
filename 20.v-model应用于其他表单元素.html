@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="app">
+        <h3>Bottle信息网</h3>
+        姓名：<input v-model="username" type="text"><br>
+        <!-- type="checkbox"设置单选框
+        v-model="isSingle" 
+        isSingle(data数据)为假false不选,为真true选中 -->
+        是否单身<input v-model="isSingle" type="checkbox"><br>
+        性别：
+        <!-- 给单选框加上name属性,可以分组
+        同一组互相会互斥 -->
+        <!-- 给单选框加上value属性,用于提交给后台的数据 -->
+        <input v-model="gender" type="radio" name="gender" value="1">男
+        <input v-model="gender" type="radio" name="gender" value="2">女<br>
+        所在城市：
+        <select v-model="cityId">
+            <!-- option需要设置value值,提交给后台
+            select的value值,关联了选中的option的value值 -->
+            <option value="101">北京</option>
+            <option value="102">上海</option>
+            <option value="103">广州</option>
+            <option value="104">杭州</option>
+            <option value="105">厦门</option>
+        </select>
+        <br>
+        自我描述：<br><textarea v-model="des"></textarea><br>
+        <button @click="fn" type="button">立即注册</button>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                username: '',
+                isSingle: false,
+                gender: '2',
+                des: '',
+                cityId: '102'
+            },
+            methods: {
+                fn() {
+                    alert('注册成功！')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{ name }}</p>
+        <!-- .toUpperCase()将字母转为大写 -->
+        <p>{{ name.toUpperCase() + '你好' }}</p>
+        <p>{{ age >= 18 ? '成年' : '未成年' }}</p>
+        <p>{{ friend.name }}</p>
+        <p>{{ friend.desc }}</p>
+        <p>{{ friend.name.toUpperCase() }}</p>
+    </div>
+    <script src="http://localhost:8098"></script><!-- 使用Vue Devtools -->
+    <script src="vue.global.js"></script>
+    <script>
+        const vue = new Vue({
+            el:'#app',
+            data:{//响应式数据
+                name:'Bottle',
+                age:18,
+                friend:{
+                name:'milk',
+                desc:'牛奶~'  
+            }
+            }
+        })
+    </script>
+</body>
+</html>

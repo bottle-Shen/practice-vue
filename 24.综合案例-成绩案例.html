@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        th {
+            background-color: pink;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+
+        tr {
+            height: 50px;
+        }
+
+        .app {
+            width: 900px;
+            margin: 0 auto;
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .box {
+            padding: 30px;
+        }
+
+        input {
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .red {
+            color: red;
+        }
+
+        button {
+            background-color: pink;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <table>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>科目</th>
+                    <th>成绩</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody v-if="list.length > 0">
+                <tr v-for="(item,index) in list" :key="item.id">
+                    <td>{{index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td :class="{red: item.score < 60}">{{item.score}}</td>
+                    <td><a @click="del(item.id)" href="#">删除</a></td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr>
+                    <!-- colspan合并列="合并的个数" -->
+                    <td colspan="4">暂无数据</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">总分：{{sum}}平均分：{{avg}}</td>
+                </tr>
+            </tfoot>
+
+        </table>
+        <div class="box">
+            <!-- 注意：在此处加.trim收尾去除空格 -->
+            科目：<input v-model.trim="name" type="text" placeholder="请输入科目"><br>
+            <!-- 注意：在此处加.number转数字，否则下面数据接收到的为字符串无法进行计算 -->
+            分数：<input v-model.number="score" type="text" placeholder="请输入分数"><br>
+            <button @click="add" type="button">添加</button>
+        </div>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                name: '',
+                score: '',
+                list: [
+                    { id: 1, name: '语文', score: 46 },
+                    { id: 2, name: '英语', score: 80 },
+                    { id: 3, name: '数学', score: 100 },
+                ]
+            },
+            methods: {
+                add() {
+                    if (!this.name) {//上面已经加了.trim收尾去除空格
+                        alert('请输入内容！')
+                        return
+                    }
+                    if (typeof this.score !== 'number') {
+                        alert('请输入数字成绩！')
+                        return
+                    }
+                    // console.log(this.name)
+                    // console.log(this.score)
+                    this.list.unshift({
+                        id: +new Date(), name: this.name, score: this.score
+                    })
+                    this.name = ''
+                    this.score = ''
+                },
+                del(e) {
+                    // console.log(e)
+                    this.list = this.list.filter((cul) => cul.id !== e)
+                }
+            },
+            computed: {
+                sum() {
+                    let sum = this.list.reduce((prev, cul) => prev + cul.score, 0)
+                    return sum
+
+                },
+                avg() {
+                    if (this.list.length === 0) {
+                        return 0
+                    }
+                    return (this.sum / this.list.length).toFixed(2)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

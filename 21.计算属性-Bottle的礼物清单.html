@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 200px;
+            text-align: center;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            /* 合并单元格框 */
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h3>Bottle信息网</h3>
+        <table>
+            <!-- tr代表行 -->
+            <tr>
+                <th>名字</th>
+                <th>数量</th>
+            </tr>
+            <tr v-for="(item,index) in list" :key="item.id">
+                <td>{{item.name}}</td>
+                <td>{{item.num}}个</td>
+            </tr>
+        </table>
+        <p>礼物总数：{{sum}}个</p>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el: '.app',
+            data: {
+                list: [
+                    { id: 1, name: '篮球', num: 1 },
+                    { id: 2, name: '足球', num: 2 },
+                    { id: 3, name: '排球', num: 3 },
+                    { id: 4, name: '铅笔', num: 4 },
+                    { id: 5, name: '橡皮', num: 5 },
+                ]
+            },
+            computed: {//封装了一段对于数据的处理，求得一个结果。
+                // 作为属性直接使用---this.计算属性 {{  }}
+                //计算属性:对结果进行缓存，再次使用时直接读取缓存
+                //依赖项变化,会自动重新计算并再次缓存
+                //性能高
+                sum() {
+                    console.log(this.list)
+                    // reduce 方法
+                    // 对数组中的所有元素调用指定的回调函数。
+                    // 该回调函数的返回值为累积结果，并且此返回值在下一次调用该回调函数时作为参数提供。
+                    // arr.reduce(function(prev,cur,[index,arr]){
+                    //     函数体 
+                    //     return 返回值
+                    // },初始值)
+                    // prev:上次调用函数的返回值
+                    // cur:当前元素
+                    let sum = this.list.reduce((prev, cur) => prev + cur.num, 0)
+                    return sum
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

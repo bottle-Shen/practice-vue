@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <h3>水果店</h3>
+        <ul>
+            <!-- 哪个标签需要循环输出就在哪个上标签加v-for -->
+            <li v-for="(item,index) in list">
+                {{item}}--{{index}}
+            </li>
+        </ul>
+        <ul>
+            <!-- item,index不是固定的可以替换其它名称 -->
+            <li v-for="(a,b) in list">
+                {{b}}--{{a}}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="item in list">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script src="http://localhost:8089"></script>
+    <script src="vue.global.js"></script>
+    <script>
+        const app = new Vue({
+            el:'.app',
+            data:{
+                list: ['西瓜', '苹果', '鸭梨', '榴莲']
+            }
+        })
+    </script>
+</body>
+</html>
